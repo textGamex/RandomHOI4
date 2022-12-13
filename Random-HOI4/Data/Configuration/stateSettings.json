@@ -1,18 +1,121 @@
 {
-  "StateCategory": {
-    "wasteland": 0,
-    "enclave": 0,
-    "tiny_island": 0,
-    "small_island": 1,
-    "pastoral": 1,
-    "rural": 2,
-    "town": 4,
-    "large_town": 5,
-    "city": 6,
-    "large_city": 8,
-    "metropolis": 10,
-    "megalopolis": 12
-  },
+  "StateCategory": [
+    {
+      "Type": "wasteland",
+      "Slot": 0
+    },
+    {
+      "Type": "enclave",
+      "Slot": 0
+    },
+    {
+      "Type": "tiny_island",
+      "Slot": 0
+    },
+    {
+      "Type": "small_island",
+      "Slot": 1
+    },
+    {
+      "Type": "pastoral",
+      "Slot": 1
+    },
+    {
+      "Type": "rural",
+      "Slot": 2
+    },
+    {
+      "Type": "town",
+      "Slot": 4
+    },
+    {
+      "Type": "large_town",
+      "Slot": 5
+    },
+    {
+      "Type": "city",
+      "Slot": 6
+    },
+    {
+      "Type": "large_city",
+      "Slot": 8
+    },
+    {
+      "Type": "metropolis",
+      "Slot": 10
+    },
+    {
+      "Type": "megalopolis",
+      "Slot": 12
+    }
+  ],
+  "Buildings": [
+    {
+      "BuildingName": "infrastructure",
+      "MaxLevel": 10,
+      "IsProvincesBuilding": false
+    },
+    {
+      "BuildingName": "arms_factory",
+      "MaxLevel": 20,
+      "IsProvincesBuilding": false
+    },
+    {
+      "BuildingName": "industrial_complex",
+      "MaxLevel": 20,
+      "IsProvincesBuilding": false
+    },
+    {
+      "BuildingName": "air_base",
+      "MaxLevel": 10,
+      "IsProvincesBuilding": false
+    },
+    {
+      "BuildingName": "supply_node",
+      "MaxLevel": 1,
+      "IsProvincesBuilding": false
+    },
+    {
+      "BuildingName": "naval_base",
+      "MaxLevel": 10,
+      "IsProvincesBuilding": true
+    },
+    {
+      "BuildingName": "bunker",
+      "MaxLevel": 10,
+      "IsProvincesBuilding": true
+    },
+    {
+      "BuildingName": "coastal_bunker",
+      "MaxLevel": 10,
+      "IsProvincesBuilding": true
+    },
+    {
+      "BuildingName": "dockyard",
+      "MaxLevel": 20,
+      "IsProvincesBuilding": false
+    },
+    {
+      "BuildingName": "anti_air_building",
+      "MaxLevel": 5,
+      "IsProvincesBuilding": false
+    },
+    {
+      "BuildingName": "radar_station",
+      "MaxLevel": 6,
+      "IsProvincesBuilding": false
+    },
+    {
+      "BuildingName": "rocket_site",
+      "MaxLevel": 5,
+      "IsProvincesBuilding": false
+    },
+    {
+      "BuildingName": "nuclear_reactor",
+      "MaxLevel": 1,
+      "IsProvincesBuilding": false
+    }
+  ],
   "MinManpower": 50,
   "MaxManpower": 20000000
 }
