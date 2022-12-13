@@ -18,6 +18,7 @@ using System.IO;
 using Random_HOI4.logic.Util.CWTool;
 using Random_HOI4.logic.Util;
 using NLog;
+using Random_HOI4.Logic.GameModel.State;
 
 namespace Random_HOI4
 {
@@ -62,6 +63,17 @@ namespace Random_HOI4
                 _logger.Debug($"Files={files.Length}, 耗时={timer.ElapsedMilliseconds} ms, " +
                     $"平均={((double)timer.ElapsedMilliseconds / files.Length):N3} ms");
             }
+            
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var data = new RandomState(@"C:\Users\Programmer\Desktop\states\2-Italy.txt");
+
+            data.RandomizationManpower();
+            data.RandomizationBuildings();
+
+            _logger.Debug(data.Content);
         }
     }
 }

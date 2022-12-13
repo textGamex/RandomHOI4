@@ -19,5 +19,10 @@ namespace Random_HOI4.logic.Util.CWTool
             list.AddRange(child);
             node.AllChildren = list;
         }
+
+        public static void ClearAllChilds(this Node node)
+        {
+            node.AllChildren = new List<Child>();
+        }
     }
 }

@@ -18,14 +18,13 @@ namespace Random_HOI4.logic
             string statePath = GetDataPath("stateSettings.json");
             using var stream = new FileStream(statePath, FileMode.Open);
             using var reader = new StreamReader(stream);
-
             StateSettings = JsonConvert.DeserializeObject<StateSettings>(
                 reader.ReadToEnd()) ?? throw new FileNotFoundException("无法找到配置文件", statePath);
         }
 
         private static string GetDataPath(string fileName)
         {
-            return $@"Data\Configuration\{fileName}";
+            return $@".\Data\Configuration\{fileName}";
         }
     }
 }
