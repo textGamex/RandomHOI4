@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Random-HOI4", "Random-HOI4\Random-HOI4.csproj", "{B78B2BCD-EED6-40FB-88B3-579C6147F5F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{F251723E-CBDE-4035-A703-2C232B165937}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateJsonFile", "Test\CreateJsonFile.csproj", "{F251723E-CBDE-4035-A703-2C232B165937}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

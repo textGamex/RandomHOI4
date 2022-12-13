@@ -12,6 +12,7 @@
     <PackageReference Include="CWTools" Version="0.3.0" />
     <PackageReference Include="FSharp.Core" Version="7.0.0" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="NLog" Version="5.1.0" />
     <PackageReference Include="WindowsAPICodePack-ShellExtensions" Version="1.1.1" />
   </ItemGroup>
@@ -20,6 +21,10 @@
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Configuration\" />
   </ItemGroup>
 
 </Project>

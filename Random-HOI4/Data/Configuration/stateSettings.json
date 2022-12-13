@@ -1,0 +1,18 @@
+{
+  "StateCategory": {
+    "wasteland": 0,
+    "enclave": 0,
+    "tiny_island": 0,
+    "small_island": 1,
+    "pastoral": 1,
+    "rural": 2,
+    "town": 4,
+    "large_town": 5,
+    "city": 6,
+    "large_city": 8,
+    "metropolis": 10,
+    "megalopolis": 12
+  },
+  "MinManpower": 50,
+  "MaxManpower": 20000000
+}
