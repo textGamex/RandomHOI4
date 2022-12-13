@@ -168,6 +168,53 @@ namespace Test
                 IsProvincesBuilding = false
             });
 
+            /*
+             * 战略资源.
+             * 数据来自HOI4文件, path: Hearts of Iron IV\common\resources\00_resources.txt
+             */
+            state.Resources.Add(new Resources()
+            {
+                Type = "oil",
+                ProbabilityOfOccurrence = 0.20,
+                MaxRandomNumber = 100,
+                MinRandomNumber = 0
+            });
+            state.Resources.Add(new Resources()
+            {
+                Type = "aluminium",
+                ProbabilityOfOccurrence = 0.35,
+                MaxRandomNumber = 100,
+                MinRandomNumber = 0
+            });
+            state.Resources.Add(new Resources()
+            {
+                Type = "rubber",
+                ProbabilityOfOccurrence = 0.35,
+                MaxRandomNumber = 100,
+                MinRandomNumber = 0
+            });
+            state.Resources.Add(new Resources()
+            {
+                Type = "tungsten",
+                ProbabilityOfOccurrence = 0.35,
+                MaxRandomNumber = 100,
+                MinRandomNumber = 0
+            });
+            state.Resources.Add(new Resources()
+            {
+                Type = "steel",
+                ProbabilityOfOccurrence = 0.60,
+                MaxRandomNumber = 180,
+                MinRandomNumber = 5
+            });
+            state.Resources.Add(new Resources()
+            {
+                Type = "chromium",
+                ProbabilityOfOccurrence = 0.35,
+                MaxRandomNumber = 100,
+                MinRandomNumber = 0
+            });
+
             using var stream = new FileStream("stateSettings.json", FileMode.Create);
             using var write = new StreamWriter(stream);
             write.Write(JsonConvert.SerializeObject(state, Formatting.Indented));
@@ -177,6 +224,7 @@ namespace Test
         {
             public readonly List<StateCategory> StateCategory = new(16);
             public readonly List<Buildings> Buildings = new(20);
+            public readonly List<Resources> Resources = new(8);
             public int MinManpower { get; set; }
             public int MaxManpower { get; set; }
         }
@@ -193,5 +241,13 @@ namespace Test
             public byte MaxLevel { get; set; }
             public bool IsProvincesBuilding { get; set; }
         }
+
+        public class Resources
+        {
+            public string? Type { get; set; }
+            public double ProbabilityOfOccurrence { get; set; }
+            public int MaxRandomNumber { get; set; }
+            public int MinRandomNumber { get; set; }
+        }        
     }
 }

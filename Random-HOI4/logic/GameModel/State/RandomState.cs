@@ -1,13 +1,12 @@
-﻿using CWTools.Process;
+﻿using CWTools.Parser;
+using CWTools.Process;
+using MathNet.Numerics.Random;
 using NLog;
 using Random_HOI4.logic.Util.CWTool;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Random;
-using Random_HOI4.logic;
 using static Random_HOI4.logic.Settings;
-using CWTools.Parser;
 
 namespace Random_HOI4.Logic.GameModel.State
 {
@@ -17,11 +16,15 @@ namespace Random_HOI4.Logic.GameModel.State
         private readonly Random _random = new MersenneTwister();
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public const string MANPOWER_KEY = "manpower";
-        public const string HISTORY_KEY = "history";
-        public const string BUILDINGS_KEY = "buildings";
-        public const string STATE_KEY = "state";
-        public const string STATE_CATEGORY_KEY = "state_category";
+        public static class Key
+        {
+            public const string MANPOWER = "manpower";
+            public const string HISTORY = "history";
+            public const string BUILDINGS = "buildings";
+            public const string STATE = "state";
+            public const string STATE_CATEGORY = "state_category";
+            public const string RESOURCES = "resources";
+        }
 
         public RandomState(string path)
         {
@@ -35,7 +38,7 @@ namespace Random_HOI4.Logic.GameModel.State
                 _logger.Warn(ex);
                 throw ex;
             }
-        }        
+        }
 
         /// <summary>
         /// 随机化地块人口
@@ -45,13 +48,13 @@ namespace Random_HOI4.Logic.GameModel.State
         {
             //TODO: 应该使用离散分布 参阅: https://numerics.mathdotnet.com/Probability.html
             int manpower = _random.Next(StateSettings.MinManpower, StateSettings.MaxManpower + 1);
-            var state = _root.Root.Child(STATE_KEY).Value;
-            var newData = CWToolsHelper.NewLeaf(MANPOWER_KEY, manpower);
+            var state = _root.Root.Child(Key.STATE).Value;
+            var newData = CWToolsHelper.NewLeaf(Key.MANPOWER, manpower);
 
-            if (state.Has(MANPOWER_KEY))
+            if (state.Has(Key.MANPOWER))
             {
                 var list = state.AllChildren;
-                list.RemoveAll(x => x.IsLeafC && x.leaf.Key == MANPOWER_KEY);
+                list.RemoveAll(x => x.IsLeafC && x.leaf.Key == Key.MANPOWER);
                 list.Add(newData);
                 state.AllChildren = list;
             }
@@ -59,33 +62,33 @@ namespace Random_HOI4.Logic.GameModel.State
             {
                 state.AddChildDirectly(newData);
             }
-           
+
             return manpower;
         }
 
         public void RandomizationBuildings()
         {
-            var state = _root.Root.Child(STATE_KEY).Value;
+            var state = _root.Root.Child(Key.STATE).Value;
             Node buildings;
-            if (state.Has(HISTORY_KEY))
+            if (state.Has(Key.HISTORY))
             {
-                var history = state.Child(HISTORY_KEY).Value;                
-                if (history.Has(BUILDINGS_KEY))
+                var history = state.Child(Key.HISTORY).Value;
+                if (history.Has(Key.BUILDINGS))
                 {
-                    buildings = history.Child(BUILDINGS_KEY).Value;
+                    buildings = history.Child(Key.BUILDINGS).Value;
                     //清空原有的建筑
-                    buildings.ClearAllChilds();                    
+                    buildings.ClearAllChilds();
                 }
                 else
                 {
-                    buildings = Node.Create(BUILDINGS_KEY);
+                    buildings = Node.Create(Key.BUILDINGS);
                     history.AddChildDirectly(Child.NewNodeC(buildings));
                 }
             }
             else
             {
-                var historyNode = Node.Create(HISTORY_KEY);
-                buildings = Node.Create(BUILDINGS_KEY);
+                var historyNode = Node.Create(Key.HISTORY);
+                buildings = Node.Create(Key.BUILDINGS);
                 historyNode.AddNodeDirectly(buildings);
                 state.AddNodeDirectly(historyNode);
             }
@@ -107,19 +110,52 @@ namespace Random_HOI4.Logic.GameModel.State
         {
             int index = _random.Next(StateSettings.StateCategory?.Count ?? throw new ArgumentException());
             string stateType = StateSettings.StateCategory[index]?.Type ?? throw new ArgumentException();
-            var state = _root.Root.Child(STATE_KEY).Value;
-            
-            if (state.Has(STATE_CATEGORY_KEY))
+            var state = _root.Root.Child(Key.STATE).Value;
+
+            if (state.Has(Key.STATE_CATEGORY))
             {
                 var list = state.AllChildren;
-                list.RemoveAll(x => x.IsLeafC && x.leaf.Key == STATE_CATEGORY_KEY);
-                list.Add(CWToolsHelper.NewLeafWhitString(STATE_CATEGORY_KEY, stateType));
+                list.RemoveAll(x => x.IsLeafC && x.leaf.Key == Key.STATE_CATEGORY);
+                list.Add(CWToolsHelper.NewLeafWhitString(Key.STATE_CATEGORY, stateType));
                 state.AllChildren = list;
             }
             return stateType;
         }
 
-        //public Dictionary<string, byte> RandomizationResources
+        public Dictionary<string, int> RandomizationResources()
+        {
+            var state = _root.Root.Child(Key.STATE).Value;
+            var map = new Dictionary<string, int>();
+            Node resourcesNode;
+
+            if (state.Has(Key.RESOURCES))
+            {
+                resourcesNode = state.Child(Key.RESOURCES).Value;
+            }
+            else
+            {
+                resourcesNode = Node.Create(Key.RESOURCES);
+                state.AddNodeDirectly(resourcesNode);
+            }
+
+            foreach (var resources in StateSettings.Resources ?? throw new ArgumentException(nameof(StateSettings.Resources)))
+            {
+                if (_random.NextDouble() > resources.ProbabilityOfOccurrence)
+                {
+                    continue;
+                }
+                int resourcesAmount = _random.Next(resources.MinRandomNumber, resources.MaxRandomNumber + 1);
+                if (resourcesAmount == 0)
+                {
+                    continue;
+                }
+                resourcesNode.AddChildDirectly(CWToolsHelper.NewLeaf(
+                    resources.Type ?? throw new ArgumentException(nameof(resources.Type)), resourcesAmount));
+                //为了防止异常, 因为可能有重复的资源类型
+                map[resources.Type] = resourcesAmount;
+            }
+            return map;
+        }
 
         public string Content => CKPrinter.printKeyValueList(_root.Root.ToRaw, 0);
     }
