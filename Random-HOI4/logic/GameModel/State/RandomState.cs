@@ -20,7 +20,8 @@ namespace Random_HOI4.Logic.GameModel.State
         public const string MANPOWER_KEY = "manpower";
         public const string HISTORY_KEY = "history";
         public const string BUILDINGS_KEY = "buildings";
-        private const string STATE_KEY = "state";
+        public const string STATE_KEY = "state";
+        public const string STATE_CATEGORY_KEY = "state_category";
 
         public RandomState(string path)
         {
@@ -65,36 +66,60 @@ namespace Random_HOI4.Logic.GameModel.State
         public void RandomizationBuildings()
         {
             var state = _root.Root.Child(STATE_KEY).Value;
-
+            Node buildings;
             if (state.Has(HISTORY_KEY))
             {
-                var history = state.Child(HISTORY_KEY).Value;
+                var history = state.Child(HISTORY_KEY).Value;                
                 if (history.Has(BUILDINGS_KEY))
                 {
-                    var buildings = history.Child(BUILDINGS_KEY).Value;                    
-                    buildings.ClearAllChilds();
-                    //TODO: 暂时先不搞省份建筑了, 排除掉
-                    var optionalBuildingList = StateSettings.Buildings?.Where(x => !x.IsProvincesBuilding).ToList() ?? throw new ArgumentNullException();
-
-                    //TODO: 这个算法需要改进
-                    foreach (var building in optionalBuildingList) 
-                    {
-                        if (_random.NextDouble() > 0.20)
-                        {
-                            buildings.AddChildDirectly(CWToolsHelper.NewLeaf(building?.BuildingName, _random.Next(1, building.MaxLevel + 1)));
-                        }
-                    }
+                    buildings = history.Child(BUILDINGS_KEY).Value;
+                    //清空原有的建筑
+                    buildings.ClearAllChilds();                    
                 }
                 else
                 {
-
+                    buildings = Node.Create(BUILDINGS_KEY);
+                    history.AddChildDirectly(Child.NewNodeC(buildings));
                 }
             }
             else
             {
+                var historyNode = Node.Create(HISTORY_KEY);
+                buildings = Node.Create(BUILDINGS_KEY);
+                historyNode.AddNodeDirectly(buildings);
+                state.AddNodeDirectly(historyNode);
+            }
 
+            //TODO: 暂时不搞省份建筑, 排除掉
+            var optionalBuildingList = StateSettings.Buildings?.Where(x => !x.IsProvincesBuilding).ToList() ?? throw new ArgumentNullException();
+            //TODO: 这个算法需要改进
+            foreach (var building in optionalBuildingList)
+            {
+                if (_random.NextDouble() > 0.25)
+                {
+                    buildings.AddChildDirectly(CWToolsHelper.NewLeaf(building?.BuildingName ?? throw new ArgumentException(),
+                        _random.Next(1, building.MaxLevel + 1)));
+                }
             }
         }
+
+        public string RandomizationStateCategory()
+        {
+            int index = _random.Next(StateSettings.StateCategory?.Count ?? throw new ArgumentException());
+            string stateType = StateSettings.StateCategory[index]?.Type ?? throw new ArgumentException();
+            var state = _root.Root.Child(STATE_KEY).Value;
+            
+            if (state.Has(STATE_CATEGORY_KEY))
+            {
+                var list = state.AllChildren;
+                list.RemoveAll(x => x.IsLeafC && x.leaf.Key == STATE_CATEGORY_KEY);
+                list.Add(CWToolsHelper.NewLeafWhitString(STATE_CATEGORY_KEY, stateType));
+                state.AllChildren = list;
+            }
+            return stateType;
+        }
+
+        //public Dictionary<string, byte> RandomizationResources
 
         public string Content => CKPrinter.printKeyValueList(_root.Root.ToRaw, 0);
     }

@@ -72,6 +72,7 @@ namespace Random_HOI4
 
             data.RandomizationManpower();
             data.RandomizationBuildings();
+            data.RandomizationStateCategory();
 
             _logger.Debug(data.Content);
         }

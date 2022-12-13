@@ -24,5 +24,10 @@ namespace Random_HOI4.logic.Util.CWTool
         {
             node.AllChildren = new List<Child>();
         }
+
+        public static void AddNodeDirectly(this Node node, Node addNode)
+        {
+            node.AddChildDirectly(Child.NewNodeC(addNode));
+        }
     }
 }
