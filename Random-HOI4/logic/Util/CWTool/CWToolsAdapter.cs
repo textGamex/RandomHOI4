@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using static CWTools.Parser.CKParser;
 using static CWTools.Process.CK2Process;
 using static CWTools.Parser.Types;
@@ -10,9 +9,8 @@ using static FParsec.Error;
 using CWTools.CSharp;
 using CWTools.Process;
 using CWTools.Parser;
-using Microsoft.VisualBasic;
 
-namespace Random_HOI4.logic.CWTools
+namespace Random_HOI4.logic.Util.CWTool
 {
     /// <summary>
     /// CWTools的适配器.
@@ -21,9 +19,14 @@ namespace Random_HOI4.logic.CWTools
     {
         public EventRoot Root { get; }
 
-        private CWToolsAdapter(EventRoot eventRoot) 
+        private CWToolsAdapter(EventRoot eventRoot)
         {
             Root = eventRoot;
+        }
+
+        static CWToolsAdapter()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         /// <summary>
@@ -35,7 +38,7 @@ namespace Random_HOI4.logic.CWTools
         /// <returns>如果成功, 返回true, 否则返回false</returns>
         public static bool TryParseString(string fileName, string contents, out CWToolsAdapter? adapter)
         {
-            var result = CKParser.parseEventString(contents, fileName);
+            var result = parseEventString(contents, fileName);
             if (result.IsSuccess)
                 adapter = new CWToolsAdapter(processEventFile(result.GetResult()));
             else
@@ -51,7 +54,7 @@ namespace Random_HOI4.logic.CWTools
         /// <returns>如果成功, 返回true, 否则返回false</returns>
         public static bool TryParseFile(string filePath, out CWToolsAdapter? adapter)
         {
-            var result = CKParser.parseEventFile(filePath);
+            var result = parseEventFile(filePath);
             if (result.IsSuccess)
                 adapter = new CWToolsAdapter(processEventFile(result.GetResult()));
             else
