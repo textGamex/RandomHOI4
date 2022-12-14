@@ -43,25 +43,7 @@ namespace Random_HOI4
             //dialog.InitialDirectory = currentDirectory;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                string folderPath = dialog.FileName;
-                var dir = new DirectoryInfo(folderPath);
-                var files = dir.GetFiles();
-                var timer = new Timer();
-                timer.Start();
-                foreach ( var file in files )
-                {
-                    if (CWToolsAdapter.TryParseFile(file.FullName, out var adapter))
-                    {
-                        _data.Add(adapter);
-                    }
-                    else
-                    {
-                        outInfo.Text += $"{file.Name} ERROR\n";
-                    }
-                }
-                timer.Stop();
-                _logger.Debug($"Files={files.Length}, 耗时={timer.ElapsedMilliseconds} ms, " +
-                    $"平均={((double)timer.ElapsedMilliseconds / files.Length):N3} ms");
+                
             }
             
         }

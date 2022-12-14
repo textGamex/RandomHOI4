@@ -120,40 +120,42 @@
     {
       "Type": "oil",
       "ProbabilityOfOccurrence": 0.2,
-      "MaxRandomNumber": 100,
-      "MinRandomNumber": 0
+      "MinRandomNumber": 0,
+      "MaxRandomNumber": 100
     },
     {
       "Type": "aluminium",
       "ProbabilityOfOccurrence": 0.35,
-      "MaxRandomNumber": 100,
-      "MinRandomNumber": 0
+      "MinRandomNumber": 0,
+      "MaxRandomNumber": 100
     },
     {
       "Type": "rubber",
       "ProbabilityOfOccurrence": 0.35,
-      "MaxRandomNumber": 100,
-      "MinRandomNumber": 0
+      "MinRandomNumber": 0,
+      "MaxRandomNumber": 100
     },
     {
       "Type": "tungsten",
       "ProbabilityOfOccurrence": 0.35,
-      "MaxRandomNumber": 100,
-      "MinRandomNumber": 0
+      "MinRandomNumber": 0,
+      "MaxRandomNumber": 100
     },
     {
       "Type": "steel",
       "ProbabilityOfOccurrence": 0.6,
-      "MaxRandomNumber": 180,
-      "MinRandomNumber": 5
+      "MinRandomNumber": 5,
+      "MaxRandomNumber": 180
     },
     {
       "Type": "chromium",
       "ProbabilityOfOccurrence": 0.35,
-      "MaxRandomNumber": 100,
-      "MinRandomNumber": 0
+      "MinRandomNumber": 0,
+      "MaxRandomNumber": 100
     }
   ],
-  "MinManpower": 50,
-  "MaxManpower": 20000000
+  "Manpower": {
+    "MinValue": 50,
+    "MaxValue": 20000000
+  }
 }

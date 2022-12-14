@@ -41,3 +41,11 @@
     - [ ] 陆军部队 (部队类型, 数量)
     - [ ] 空军部队
     - [ ] 海军部队
+
+## 技术栈
+
+- .NET 7 + WPF
+- HOI4文件解析库: [CWTools](https://github.com/cwtools/cwtools)
+- 数学库: [MathNet.Numerics](https://numerics.mathdotnet.com/)
+- 日志框架: [NLog](https://nlog-project.org/)
+- JSON库: [Newtonsoft.Json](https://www.newtonsoft.com/json)

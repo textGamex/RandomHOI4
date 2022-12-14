@@ -4,30 +4,29 @@ using System.Collections.Generic;
 using NLog;
 using System.Linq;
 
-namespace Random_HOI4.logic.Configuration
+namespace Random_HOI4.Logic.Configuration
 {
     public class StateSettings
     {
         public List<StateCategory> StateCategory => _stateCategory.ToList();
         public List<Buildings> Buildings => _buildings.ToList();
         public List<Resources> Resources => _resources.ToList();
-        public int MinManpower { get; }
-        public int MaxManpower { get; }
+        public Manpower Manpower => _manpower;
 
         private readonly List<StateCategory> _stateCategory;
         private readonly List<Buildings> _buildings;
         private readonly List<Resources> _resources;
+        private readonly Manpower _manpower;
 
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         [JsonConstructor]
-        public StateSettings(List<StateCategory>? stateCategory, List<Buildings>? buildings, List<Resources>? resources, int minManpower, int maxManpower)
+        public StateSettings(List<StateCategory>? stateCategory, List<Buildings>? buildings, List<Resources>? resources, Manpower? manpower)
         {
             _stateCategory = stateCategory ?? throw new ArgumentNullException(nameof(stateCategory));
             _buildings = buildings ?? throw new ArgumentNullException(nameof(buildings));
             _resources = resources ?? throw new ArgumentNullException(nameof(resources));
-            MinManpower = minManpower;
-            MaxManpower = maxManpower;
+            _manpower = manpower ?? throw new ArgumentNullException(nameof(manpower));
         }
     }
 
@@ -63,16 +62,29 @@ namespace Random_HOI4.logic.Configuration
     {
         public string Type { get; }
         public double ProbabilityOfOccurrence { get; }
-        public int MaxRandomNumber { get; }
         public int MinRandomNumber { get; }
-
+        public int MaxRandomNumber { get; }
+        
         [JsonConstructor]
         public Resources(string? type, double probabilityOfOccurrence, int maxRandomNumber, int minRandomNumber)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
             ProbabilityOfOccurrence = probabilityOfOccurrence;
-            MaxRandomNumber = maxRandomNumber;
             MinRandomNumber = minRandomNumber;
+            MaxRandomNumber = maxRandomNumber;            
+        }
+    }
+
+    public class Manpower
+    {
+        public int MinValue { get; }
+        public int MaxValue { get; }
+
+        [JsonConstructor]
+        public Manpower(int minManpower, int maxManpower)
+        {
+            MinValue = minManpower;
+            MaxValue = maxManpower;
         }
     }
 }
