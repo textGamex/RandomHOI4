@@ -94,13 +94,13 @@ namespace Random_HOI4.Logic.GameModel.State
             }
 
             //TODO: 暂时不搞省份建筑, 排除掉
-            var optionalBuildingList = StateSettings.Buildings?.Where(x => !x.IsProvincesBuilding).ToList() ?? throw new ArgumentNullException();
+            var optionalBuildingList = StateSettings.Buildings.Where(x => !x.IsProvincesBuilding).ToList() ?? throw new ArgumentNullException();
             //TODO: 这个算法需要改进
             foreach (var building in optionalBuildingList)
             {
                 if (_random.NextDouble() > 0.25)
                 {
-                    buildings.AddChildDirectly(CWToolsHelper.NewLeaf(building?.BuildingName ?? throw new ArgumentException(),
+                    buildings.AddChildDirectly(CWToolsHelper.NewLeaf(building.BuildingName,
                         _random.Next(1, building.MaxLevel + 1)));
                 }
             }
@@ -108,8 +108,8 @@ namespace Random_HOI4.Logic.GameModel.State
 
         public string RandomizationStateCategory()
         {
-            int index = _random.Next(StateSettings.StateCategory?.Count ?? throw new ArgumentException());
-            string stateType = StateSettings.StateCategory[index]?.Type ?? throw new ArgumentException();
+            int index = _random.Next(StateSettings.StateCategory.Count);
+            string stateType = StateSettings.StateCategory[index].Type;
             var state = _root.Root.Child(Key.STATE).Value;
 
             if (state.Has(Key.STATE_CATEGORY))
@@ -138,7 +138,7 @@ namespace Random_HOI4.Logic.GameModel.State
                 state.AddNodeDirectly(resourcesNode);
             }
 
-            foreach (var resources in StateSettings.Resources ?? throw new ArgumentException(nameof(StateSettings.Resources)))
+            foreach (var resources in StateSettings.Resources)
             {
                 if (_random.NextDouble() > resources.ProbabilityOfOccurrence)
                 {
@@ -149,8 +149,7 @@ namespace Random_HOI4.Logic.GameModel.State
                 {
                     continue;
                 }
-                resourcesNode.AddChildDirectly(CWToolsHelper.NewLeaf(
-                    resources.Type ?? throw new ArgumentException(nameof(resources.Type)), resourcesAmount));
+                resourcesNode.AddChildDirectly(CWToolsHelper.NewLeaf(resources.Type, resourcesAmount));
                 //为了防止异常, 因为可能有重复的资源类型
                 map[resources.Type] = resourcesAmount;
             }

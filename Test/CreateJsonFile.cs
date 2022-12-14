@@ -17,66 +17,18 @@ namespace Test
              * 地块类型.
              * 数据来自 https://hoi4.parawikis.com/wiki/%E5%9C%B0%E5%8C%BA%E6%A8%A1%E6%94%B9
              */
-            state.StateCategory.Add(new StateCategory() 
-            {
-                Type = "wasteland",
-                Slot = 0
-            });
-            state.StateCategory.Add(new StateCategory()
-            {
-                Type = "enclave",
-                Slot = 0
-            });
-            state.StateCategory.Add(new StateCategory()
-            {
-                Type = "tiny_island",
-                Slot = 0
-            });
-            state.StateCategory.Add(new StateCategory()
-            {
-                Type = "small_island",
-                Slot = 1
-            });
-            state.StateCategory.Add(new StateCategory()
-            {
-                Type = "pastoral",
-                Slot = 1
-            });
-            state.StateCategory.Add(new StateCategory()
-            {
-                Type = "rural",
-                Slot = 2
-            });
-            state.StateCategory.Add(new StateCategory()
-            {
-                Type = "town",
-                Slot = 4
-            });
-            state.StateCategory.Add(new StateCategory()
-            {
-                Type = "large_town",
-                Slot = 5
-            });
-            state.StateCategory.Add(new StateCategory()
-            {
-                Type = "city",
-                Slot = 6
-            });
-            state.StateCategory.Add(new StateCategory()
-            {
-                Type = "large_city",
-                Slot = 8
-            });
-            state.StateCategory.Add(new StateCategory()
-            {
-                Type = "metropolis",
-                Slot = 10
-            });
-            state.StateCategory.Add(new StateCategory()
-            {
-                Type = "megalopolis",
-                Slot = 12
-            });
+            state.StateCategory.Add(new StateCategory("wasteland", 0));
+            state.StateCategory.Add(new StateCategory("enclave", 0));
+            state.StateCategory.Add(new StateCategory("tiny_island", 0));
+            state.StateCategory.Add(new StateCategory("small_island", 1));
+            state.StateCategory.Add(new StateCategory("pastoral", 1));
+            state.StateCategory.Add(new StateCategory("rural", 2));
+            state.StateCategory.Add(new StateCategory("town", 4));
+            state.StateCategory.Add(new StateCategory("large_town", 5));
+            state.StateCategory.Add(new StateCategory("city", 6));
+            state.StateCategory.Add(new StateCategory("large_city", 8));
+            state.StateCategory.Add(new StateCategory("metropolis", 10));
+            state.StateCategory.Add(new StateCategory("megalopolis", 12));
 
             /*
              * 建筑类型.
@@ -231,8 +183,15 @@ namespace Test
 
         public class StateCategory
         {
-            public string? Type { get; set; }
-            public byte? Slot { get; set; }
+            public string Type { get; }
+            public byte Slot { get; }
+
+            [JsonConstructor]
+            public StateCategory(string? type, byte? slot)
+            {
+                Type = type ?? throw new ArgumentNullException(nameof(type));
+                Slot = slot ?? throw new ArgumentNullException(nameof(slot));
+            }
         }
 
         public class Buildings
