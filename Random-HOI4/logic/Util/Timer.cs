@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace Random_HOI4.logic.Util
+namespace Random_HOI4.Logic.Util
 {
     /// <summary>
     /// 计时器

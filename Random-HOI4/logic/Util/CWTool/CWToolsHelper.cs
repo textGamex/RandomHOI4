@@ -2,7 +2,7 @@
 using Microsoft.FSharp.Collections;
 using static CWTools.Parser.Types;
 
-namespace Random_HOI4.logic.Util.CWTool
+namespace Random_HOI4.Logic.Util.CWTool
 {
     public static class CWToolsHelper
     {

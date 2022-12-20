@@ -15,10 +15,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
-using Random_HOI4.logic.Util.CWTool;
-using Random_HOI4.logic.Util;
+using Random_HOI4.Logic.Util.CWTool;
+using Random_HOI4.Logic.Util;
 using NLog;
 using Random_HOI4.Logic.GameModel.State;
+using Random_HOI4.Logic.GameModel;
 
 namespace Random_HOI4
 {
@@ -50,14 +51,29 @@ namespace Random_HOI4
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            var data = new RandomState(@"C:\Users\Programmer\Desktop\states\2-Italy.txt");
+            //var data = new RandomState(@"C:\Users\Programmer\Desktop\states\2-Italy.txt");
+            var game = new HOI4ModFile();
+            
+            var dir = new DirectoryInfo(@"C:\Users\Programmer\Desktop\states");
+            var files = dir.GetFiles();
+            foreach (var file in files) 
+            {
+                var state = new RandomState(file.FullName);
+                state.RandomizationManpower();
+                state.RandomizationBuildings();
+                state.RandomizationStateCategory();
+                state.RandomizationResources();
+                game.AddState(state);
+                _logger.Info("{} 处理完成", file.Name);
+            }
 
-            data.RandomizationManpower();
-            data.RandomizationBuildings();
-            data.RandomizationStateCategory();
-            data.RandomizationResources();
+            game.Write();
+            //data.RandomizationManpower();
+            //data.RandomizationBuildings();
+            //data.RandomizationStateCategory();
+            //data.RandomizationResources();
 
-            _logger.Debug(data.Content);
+            //_logger.Debug(data.Content);
         }
     }
 }

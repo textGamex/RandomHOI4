@@ -81,10 +81,10 @@ namespace Random_HOI4.Logic.Configuration
         public int MaxValue { get; }
 
         [JsonConstructor]
-        public Manpower(int minManpower, int maxManpower)
+        public Manpower(int minValue, int maxValue)
         {
-            MinValue = minManpower;
-            MaxValue = maxManpower;
+            MinValue = minValue;
+            MaxValue = maxValue;
         }
     }
 }

@@ -10,7 +10,7 @@ using CWTools.CSharp;
 using CWTools.Process;
 using CWTools.Parser;
 
-namespace Random_HOI4.logic.Util.CWTool
+namespace Random_HOI4.Logic.Util.CWTool
 {
     /// <summary>
     /// CWTools的适配器.

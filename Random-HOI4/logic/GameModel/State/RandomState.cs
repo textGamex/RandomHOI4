@@ -1,9 +1,11 @@
 ﻿using CWTools.Parser;
 using CWTools.Process;
+using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 using NLog;
 using Random_HOI4.Logic.Util.CWTool;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using static Random_HOI4.Logic.Settings;
@@ -13,6 +15,7 @@ namespace Random_HOI4.Logic.GameModel.State
     internal class RandomState
     {
         private readonly CWToolsAdapter _root;
+        public string FileName { get; }
         private readonly Random _random = new MersenneTwister();
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -28,6 +31,7 @@ namespace Random_HOI4.Logic.GameModel.State
 
         public RandomState(string path)
         {
+            FileName = Path.GetFileName(path);
             if (CWToolsAdapter.TryParseFile(path, out var adapter))
             {
                 _root = adapter;
@@ -48,6 +52,7 @@ namespace Random_HOI4.Logic.GameModel.State
         {
             //TODO: 应该使用离散分布 参阅: https://numerics.mathdotnet.com/Probability.html
             int manpower = _random.Next(StateSettings.Manpower.MinValue, StateSettings.Manpower.MaxValue + 1);
+
             var state = _root.Root.Child(Key.STATE).Value;
             var newData = CWToolsHelper.NewLeaf(Key.MANPOWER, manpower);
 
